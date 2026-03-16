@@ -84,3 +84,46 @@ The focus is on:
 ```bash
 git clone https://github.com/<your-username>/enterprise-churn-feature-pipeline.git
 cd enterprise-churn-feature-pipeline
+
+### 2. Install dependencies
+
+```bash
+
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+
+### 3. Configure
+
+Copy the example config:
+
+```bash
+
+cp config/config.example.yaml config/config.yaml
+
+Edit config/config.yaml to adjust paths if needed.
+
+### 4. Run ingestion
+
+```bash
+
+python -m src.ingest_crm
+python -m src.ingest_billing
+python -m src.ingest_usage
+
+This will read synthetic raw data from data/raw/ and write normalized tables
+to data/processed/.
+
+### 5. Run feature transformation
+
+```bash
+
+python -m src.transform_features
+
+This will create data/features/churn_features.parquet.
+
+### 6. Explore in notebook
+
+```bash
+
+jupyter notebook notebooks/01_exploration.ipynb
